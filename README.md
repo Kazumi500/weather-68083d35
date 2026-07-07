@@ -79,17 +79,24 @@ index.html  ──►  src/main.js  ──►  src/modules/api.js  ──►  op
 
 ## Customize
 
-Two dicts in `src/modules/process.js` and `src/main.js` are the natural extension points — keep them in lockstep when adding coverage:
+Two maps in `src/modules/process.js` are the extension points — keep them in sync when adding coverage:
 
-| Location | Purpose | Example key |
+| Map | Purpose | Example |
 |---|---|---|
-| `WEATHER_CODES` in `process.js` | numeric weather code → human label | `71: 'Slight snow'` |
-| `GLYPHS` in `main.js` | numeric weather code → SVG markup | `71: \`<svg …>${CLOUD}${SNOWFLAKE(32, 53, 5)}</svg>\`` |
+| `WEATHER_CODES` | numeric weather code → human label, used in `current.conditions` | `71: 'Slight snow'` |
+| `WMO_TO_ICON` | numeric weather code → bundled SVG URL, used in `current.iconUrl` | `71: snowy2` |
 
-Add a row to **both** for any new WMO code you want to render. If a code has no glyph, the user sees the overcast fallback (`GLYPHS[3]`).
+To cover a new WMO code:
 
-> [!TIP]
-> SVG fragments in `main.js` (e.g. `SUN_CORE`, `CLOUD`, `BOLT_FILL`) are reusable building blocks. Reuse them when adding new glyphs instead of hand-rolling paths.
+1. Drop the SVG into `src/assets/weather/` (the file already there for related codes is a good template).
+2. Add an `import` for it at the top of `src/modules/process.js`.
+3. Add the row to both `WEATHER_CODES` and `WMO_TO_ICON`.
+
+Unknown codes fall back to the overcast icon (`cloudy`). Icons are bundled (no runtime fetch), so changing them is a one-line git commit and a redeploy.
+
+## Credits
+
+Weather icons © [Custom cards for Home Assistant](https://github.com/Makin-Things/weather-icons), MIT License. See `src/assets/weather/LICENSE.txt` for the full text.
 
 ## Troubleshooting
 

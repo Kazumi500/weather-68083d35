@@ -129,7 +129,7 @@ button:hover, button:focus-visible { color: var(--accent); }
   color: var(--paper);
   display: block;
 }
-.hero-glyph svg { width: 100%; height: 100%; display: block; }
+.hero-glyph img { width: 100%; height: 100%; display: block; }
 
 .conditions {
   font-family: var(--font-mono);
@@ -175,6 +175,20 @@ button:hover, button:focus-visible { color: var(--accent); }
   margin: 0;
 }
 .msg.muted { color: var(--rule); }
+
+.spinner {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-left: 0.6rem;
+  vertical-align: -0.05em;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  letter-spacing: 0;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 540px) {
   .hero { grid-template-columns: 1fr; gap: 1rem; }
