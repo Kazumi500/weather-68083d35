@@ -5,6 +5,17 @@ const out = document.getElementById('weather');
 const h = (tag) => document.createElement(tag);
 const txt = (s) => document.createTextNode(s);
 
+// Header masthead — populate today's date.
+(() => {
+  const el = document.getElementById('today');
+  if (!el) return;
+  const d = new Date();
+  const day = d.getDate();
+  const month = d.toLocaleString('en', { month: 'short' }).toLowerCase();
+  const year = d.getFullYear();
+  el.textContent = `${day} ${month} ${year}`;
+})();
+
 const msg = (text, muted = false) => {
   const p = h('p');
   p.className = `msg${muted ? ' muted' : ''}`;
@@ -54,7 +65,7 @@ function render(weather, location) {
   if (weather instanceof Error) return msg(`Couldn't reach the sky — ${weather.message}`);
   const grid = h('div'); grid.className = 'met-grid';
   out.append(
-    eyebrow(weather.current.observedAt.replace('T', ' · '), location),
+    eyebrow('Observed', weather.current.observedAt.replace('T', ' · ')),
     h('h1', locationLabel(weather.place) || '—'),
   );
   const hero = h('div'); hero.className = 'hero';
